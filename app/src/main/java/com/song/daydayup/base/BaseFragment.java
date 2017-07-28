@@ -33,14 +33,12 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initEvent();
+        initData();
 
     }
 
     @Override
     public void onResume() {
-        if (getUserVisibleHint()) {
-            initData();
-        }
         super.onResume();
     }
 

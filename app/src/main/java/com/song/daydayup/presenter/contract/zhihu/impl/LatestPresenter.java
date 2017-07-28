@@ -39,6 +39,7 @@ public class LatestPresenter extends RxPresenter<LatestContract.View> implements
                     @Override
                     public void call(Throwable throwable) {
                         mView.showError("数据加载失败");
+                        mView.dismissProgress();
                     }
                 });
     }

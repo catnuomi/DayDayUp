@@ -44,6 +44,7 @@ public class MovieHotPresenter extends RxPresenter<DoubanMovieHotContract.View> 
                     @Override
                     public void call(Throwable throwable) {
                         mView.showError("数据加载失败");
+                        mView.dismissProgress();
                     }
                 }));
     }
@@ -69,6 +70,7 @@ public class MovieHotPresenter extends RxPresenter<DoubanMovieHotContract.View> 
                     @Override
                     public void call(Throwable throwable) {
                         mView.showError("数据加载失败");
+                        mView.dismissProgress();
                     }
                 }));
     }

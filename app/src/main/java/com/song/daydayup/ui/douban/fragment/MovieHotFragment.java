@@ -5,16 +5,20 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.song.daydayup.R;
 import com.song.daydayup.base.SubpageFragment;
 import com.song.daydayup.di.component.DaggerFragmentComponent;
 import com.song.daydayup.model.bean.douban.MovieListBean;
+import com.song.daydayup.presenter.contract.douban.DoubanMovieHotContract;
 import com.song.daydayup.presenter.contract.douban.impl.MovieHotPresenter;
 import com.song.daydayup.presenter.contract.douban.impl.MovieTop250Presenter;
-import com.song.daydayup.presenter.contract.douban.DoubanMovieHotContract;
 import com.song.daydayup.ui.douban.adapter.MovieListAdapter;
+import com.song.daydayup.ui.view.CardConfig;
+import com.song.daydayup.ui.view.OverLayCardLayoutManager;
+import com.song.daydayup.ui.view.RenRenCallback;
 import com.song.daydayup.ui.view.SwipeRefreshLayout;
 import com.song.daydayup.utils.ToastUtil;
 
@@ -39,6 +43,8 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
     private List<MovieListBean.SubjectsEntity> mData = new ArrayList<>();
     //服务器传来总共有多少条数据
     private int total;
+    private OverLayCardLayoutManager mOverLayCardLayoutManager;
+
     @Override
     protected void initInject() {
         DaggerFragmentComponent.create().inject(this);
@@ -152,11 +158,20 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
             mAdapter.changeLayout(false);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
         } else {
-            if (mGridLayoutManager == null) {
+            if (mOverLayCardLayoutManager == null) {
+                mOverLayCardLayoutManager = new OverLayCardLayoutManager();
+            }
+            mAdapter.changeLayout(true);
+            mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
+            CardConfig.initConfig(getActivity() );
+            ItemTouchHelper.Callback callback = new RenRenCallback(mRecyclerView, mAdapter, mData);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+            itemTouchHelper.attachToRecyclerView(mRecyclerView);
+           /* if (mGridLayoutManager == null) {
                 mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
             }
             mAdapter.changeLayout(true);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);*/
         }
         mAdapter.notifyDataSetChanged();
     }
