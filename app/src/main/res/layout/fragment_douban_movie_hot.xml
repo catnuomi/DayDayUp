@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.song.daydayup.ui.view.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:overScrollMode="never"
+            android:id="@+id/rv_movie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_change_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="20dp"
+
+            />
+    </FrameLayout>
+
+</com.song.daydayup.ui.view.SwipeRefreshLayout>

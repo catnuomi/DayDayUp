@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="资讯">
+        <menu>
+            <item android:title="豆瓣"
+                  android:id="@+id/douban"
+                  android:checkable="true"
+                android:icon="@mipmap/icon_douban"/>
+            <item android:title="知乎日报"
+                  android:id="@+id/zhihu"
+                  android:checkable="true"
+                android:icon="@mipmap/icon_zhihu"/>
+            <item android:title="微博"
+                  android:checkable="true"
+                  android:id="@+id/weibo"
+                android:icon="@mipmap/icon_weibo"/>
+            <item android:title="干货集中营"
+                  android:id="@+id/gank"
+                android:checkable="true"/>
+
+        </menu>
+    </item>
+    <item android:title="选项">
+        <menu>
+            <item android:title="收藏"/>
+            <item android:title="设置"/>
+        </menu>
+    </item>
+</menu>
