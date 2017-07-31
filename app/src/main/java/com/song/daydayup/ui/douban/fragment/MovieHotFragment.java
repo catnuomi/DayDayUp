@@ -1,13 +1,18 @@
 package com.song.daydayup.ui.douban.fragment;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.song.daydayup.R;
 import com.song.daydayup.base.SubpageFragment;
 import com.song.daydayup.di.component.DaggerFragmentComponent;
@@ -26,24 +31,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created by Chen.Qingsong on 2017/2/23.
  */
-public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> implements DoubanMovieHotContract.View{
+public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> implements DoubanMovieHotContract.View, MovieListAdapter.OnSwipeListener {
     @Bind(R.id.rv_movie)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.fab_change_layout)
     FloatingActionButton mFabChangeLayout;
+    @Bind(R.id.iv_background)
+    ImageView mIvBackground;
     private LinearLayoutManager mLinearLayoutManager;
-    private GridLayoutManager mGridLayoutManager;
     private MovieListAdapter mAdapter;
     private List<MovieListBean.SubjectsEntity> mData = new ArrayList<>();
     //服务器传来总共有多少条数据
     private int total;
     private OverLayCardLayoutManager mOverLayCardLayoutManager;
+    private ItemTouchHelper.Callback mCallback;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void initInject() {
@@ -58,7 +68,7 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
                 mPresenter.changeLayout();
             }
         });
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.refresh_blue),getResources().getColor(R.color.refresh_red),getResources().getColor(R.color.refresh_green));
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.refresh_blue), getResources().getColor(R.color.refresh_red), getResources().getColor(R.color.refresh_green));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -128,7 +138,6 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
         total = data.getTotal();
 
         mData.addAll(data.getSubjects());
-
         mAdapter.notifyDataSetChanged();
     }
 
@@ -146,33 +155,53 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
     @Override
     public void showMoreContent(MovieListBean data) {
         mData.addAll(data.getSubjects());
+        onSwipe(mData.get(0).getImages().getLarge());
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void changeLayout(int layoutType) {
         if (layoutType == MovieTop250Presenter.LAYOUT_LIST) {
+            mIvBackground.setVisibility(View.INVISIBLE);
             if (mLinearLayoutManager == null) {
                 mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             }
-            mAdapter.changeLayout(false);
+            mAdapter.changeLayout(MovieListAdapter.TYPE_LIST);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
         } else {
+            mIvBackground.setVisibility(View.VISIBLE);
             if (mOverLayCardLayoutManager == null) {
                 mOverLayCardLayoutManager = new OverLayCardLayoutManager();
             }
-            mAdapter.changeLayout(true);
+            onSwipe(mData.get(mData.size() - 1).getImages().getLarge());
+            mAdapter.changeLayout(MovieListAdapter.TYPE_CARD);
+            mAdapter.setOnSwipeListener(this);
             mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
-            CardConfig.initConfig(getActivity() );
-            ItemTouchHelper.Callback callback = new RenRenCallback(mRecyclerView, mAdapter, mData);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-            itemTouchHelper.attachToRecyclerView(mRecyclerView);
-           /* if (mGridLayoutManager == null) {
-                mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
-            }
-            mAdapter.changeLayout(true);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);*/
+            CardConfig.initConfig(getActivity());
+            mCallback = new RenRenCallback(mRecyclerView, mAdapter);
+            mItemTouchHelper = new ItemTouchHelper(mCallback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         }
         mAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onSwipe(String imageUrl) {
+        Glide.with(this).load(imageUrl).animate(R.anim.movie_list).placeholder(mIvBackground.getDrawable()).diskCacheStrategy(DiskCacheStrategy.RESULT).bitmapTransform(new BlurTransformation(getContext(), 10)).into(mIvBackground);
+    }
+
+
 }

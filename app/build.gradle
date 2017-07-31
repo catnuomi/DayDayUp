@@ -41,6 +41,8 @@ dependencies {
     compile 'com.github.florent37:viewanimator:1.0.5'
     compile 'com.roger.gifloadinglibrary:gifloadinglibrary:1.0.0'
     compile 'net.opacapp:multiline-collapsingtoolbar:1.4.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+
     //network
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'

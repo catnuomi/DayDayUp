@@ -1,42 +1,60 @@
 package com.song.daydayup.ui.douban.fragment;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.song.daydayup.R;
 import com.song.daydayup.base.SubpageFragment;
 import com.song.daydayup.di.component.DaggerFragmentComponent;
 import com.song.daydayup.model.bean.douban.MovieListBean;
-import com.song.daydayup.presenter.contract.douban.impl.MovieTop250Presenter;
 import com.song.daydayup.presenter.contract.douban.DoubanMovieTop250Contract;
+import com.song.daydayup.presenter.contract.douban.impl.MovieTop250Presenter;
 import com.song.daydayup.ui.douban.adapter.MovieListAdapter;
+import com.song.daydayup.ui.view.CardConfig;
+import com.song.daydayup.ui.view.OverLayCardLayoutManager;
+import com.song.daydayup.ui.view.RenRenCallback;
 import com.song.daydayup.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created by Chen.Qingsong on 2017/2/23.
  */
-public class MovieTop250Fragment extends SubpageFragment<MovieTop250Presenter> implements DoubanMovieTop250Contract.View {
+public class MovieTop250Fragment extends SubpageFragment<MovieTop250Presenter> implements DoubanMovieTop250Contract.View, MovieListAdapter.OnSwipeListener {
     @Bind(R.id.rv_movie)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.fab_change_layout)
     FloatingActionButton mFabChangeLayout;
+    @Bind(R.id.iv_background)
+    ImageView mIvBackground;
     private LinearLayoutManager mLinearLayoutManager;
     private GridLayoutManager mGridLayoutManager;
     private MovieListAdapter mAdapter;
     private List<MovieListBean.SubjectsEntity> mData = new ArrayList<>();
     //服务器传来总共有多少条数据
     private int total;
+    private ItemTouchHelper mItemTouchHelper;
+    private RenRenCallback mCallback;
+    private OverLayCardLayoutManager mOverLayCardLayoutManager;
+
     @Override
     protected void initInject() {
         DaggerFragmentComponent.create().inject(this);
@@ -50,7 +68,7 @@ public class MovieTop250Fragment extends SubpageFragment<MovieTop250Presenter> i
                 mPresenter.changeLayout();
             }
         });
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.refresh_blue),getResources().getColor(R.color.refresh_red),getResources().getColor(R.color.refresh_green));
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.refresh_blue), getResources().getColor(R.color.refresh_red), getResources().getColor(R.color.refresh_green));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -131,17 +149,25 @@ public class MovieTop250Fragment extends SubpageFragment<MovieTop250Presenter> i
     @Override
     public void changeLayout(int layoutType) {
         if (layoutType == MovieTop250Presenter.LAYOUT_LIST) {
+            mIvBackground.setVisibility(View.INVISIBLE);
             if (mLinearLayoutManager == null) {
                 mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             }
-            mAdapter.changeLayout(false);
+            mAdapter.changeLayout(MovieListAdapter.TYPE_LIST);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
         } else {
-            if (mGridLayoutManager == null) {
-                mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
+            mIvBackground.setVisibility(View.VISIBLE);
+            if (mOverLayCardLayoutManager == null) {
+                mOverLayCardLayoutManager = new OverLayCardLayoutManager();
             }
-            mAdapter.changeLayout(true);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            onSwipe(mData.get(mData.size() - 1).getImages().getLarge());
+            mAdapter.changeLayout(MovieListAdapter.TYPE_CARD);
+            mAdapter.setOnSwipeListener(this);
+            mRecyclerView.setLayoutManager(mOverLayCardLayoutManager);
+            CardConfig.initConfig(getActivity());
+            mCallback = new RenRenCallback(mRecyclerView, mAdapter);
+            mItemTouchHelper = new ItemTouchHelper(mCallback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -151,4 +177,22 @@ public class MovieTop250Fragment extends SubpageFragment<MovieTop250Presenter> i
 
     }
 
+    @Override
+    public void onSwipe(String imageUrl) {
+        Glide.with(this).load(imageUrl).animate(R.anim.movie_list).placeholder(mIvBackground.getDrawable()).diskCacheStrategy(DiskCacheStrategy.RESULT).bitmapTransform(new BlurTransformation(getContext(), 10)).into(mIvBackground);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

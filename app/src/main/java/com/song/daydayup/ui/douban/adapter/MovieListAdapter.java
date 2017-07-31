@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.song.daydayup.R;
 import com.song.daydayup.model.bean.douban.MovieListBean;
 import com.song.daydayup.ui.douban.activity.MovieDetailActivity;
+import com.song.daydayup.ui.view.RenRenCallback;
 
 import java.util.List;
 
@@ -22,13 +24,15 @@ import butterknife.ButterKnife;
 /**
  * Created by Chen.Qingsong on 2017/2/24.
  */
-public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RenRenCallback.ItemTouchHelperAdapter {
 
     private final List<MovieListBean.SubjectsEntity> mData;
     private final Context mContext;
     private boolean gridLayout = false;
-    private final static int TYPE_LIST = 0;
-    private final static int TYPE_GRID = 1;
+    public final static int TYPE_LIST = 0;
+    public final static int TYPE_CARD = 1;
+    private int mLayoutType;
+    private OnSwipeListener mListener;
 
     public MovieListAdapter(Context context, List<MovieListBean.SubjectsEntity> data) {
         mData = data;
@@ -37,19 +41,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (gridLayout) {
-            return TYPE_GRID;
-        } else {
-            return TYPE_LIST;
-        }
+        return mLayoutType == TYPE_LIST ? TYPE_LIST : TYPE_CARD;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_GRID) {
-            return new GridViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_grid, parent,false));
+        if (viewType == TYPE_CARD) {
+            return new GridViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_card, parent, false));
         } else {
-            return new ListViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_list, parent,false));
+            return new ListViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_list, parent, false));
         }
     }
 
@@ -109,6 +109,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //海报
             Glide.with(mContext)
                     .load(mData.get(position).getImages().getLarge())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(tempHolder.mItemMovieIv);
             //影片名
             tempHolder.mItemMovieTitle.setText(subjectsEntity.getTitle());
@@ -127,6 +128,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    public void setOnSwipeListener(OnSwipeListener listener) {
+        mListener = listener;
+    }
 
     @Override
     public int getItemCount() {
@@ -135,11 +139,28 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /**
      * 改变item布局
-     * @param gridLayout
+     *
+     * @param layoutType
      */
-    public void changeLayout(boolean gridLayout) {
-        this.gridLayout = gridLayout;
+    public void changeLayout(int layoutType) {
+        mLayoutType = layoutType;
     }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        MovieListBean.SubjectsEntity remove = mData.remove(position);
+        mData.add(0, remove);
+        if (mListener != null) {
+            mListener.onSwipe(mData.get(position).getImages().getLarge());
+        }
+        notifyDataSetChanged();
+    }
+
     public class ListViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_movie_title)
         TextView mItemMovieTitle;
@@ -171,10 +192,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView mItemMovieTitle;
         @Bind(R.id.item_movie_rating)
         TextView mItemMovieRating;
+
         public GridViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
-
+    public interface OnSwipeListener {
+        /**
+         * 卡片布局滑动监听，用于切换背景
+         * @param imageUrl
+         */
+        void onSwipe(String imageUrl);
+    }
 }

@@ -6,27 +6,25 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import java.util.List;
+
 import static com.song.daydayup.ui.view.CardConfig.MAX_SHOW_COUNT;
 import static com.song.daydayup.ui.view.CardConfig.SCALE_GAP;
 import static com.song.daydayup.ui.view.CardConfig.TRANS_Y_GAP;
+
 public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
 
     protected RecyclerView mRv;
     protected List mDatas;
-    protected RecyclerView.Adapter mAdapter;
+    protected ItemTouchHelperAdapter mAdapter;
 
-    public RenRenCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas) {
-        this(0,
-                ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT,
-                rv, adapter, datas);
+    public RenRenCallback(RecyclerView rv, ItemTouchHelperAdapter adapter) {
+        this(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT,rv, adapter);
     }
 
-    public RenRenCallback(int dragDirs, int swipeDirs
-            , RecyclerView rv, RecyclerView.Adapter adapter, List datas) {
+    public RenRenCallback(int dragDirs, int swipeDirs, RecyclerView rv, ItemTouchHelperAdapter adapter) {
         super(dragDirs, swipeDirs);
         mRv = rv;
         mAdapter = adapter;
-        mDatas = datas;
     }
 
     //水平方向是否可以被回收掉的阈值
@@ -42,14 +40,7 @@ public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        //Log.e("swipecard", "onSwiped() called with: viewHolder = [" + viewHolder + "], direction = [" + direction + "]");
-        //rollBack(viewHolder);
-        //★实现循环的要点
-        Object remove = mDatas.remove(viewHolder.getLayoutPosition());
-        mDatas.add(0, remove);
-        mAdapter.notifyDataSetChanged();
-
-
+        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
     @Override
@@ -82,5 +73,12 @@ public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
                 }
             }
         }
+    }
+
+    public interface ItemTouchHelperAdapter {
+
+        void onItemMove(int fromPosition, int toPosition);
+
+        void onItemDismiss(int position);
     }
 }

@@ -10,12 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/iv_background"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <android.support.v7.widget.RecyclerView
-            android:overScrollMode="never"
             android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:overScrollMode="never"
             />
 
         <android.support.design.widget.FloatingActionButton

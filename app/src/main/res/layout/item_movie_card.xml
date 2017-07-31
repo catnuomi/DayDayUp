@@ -12,33 +12,43 @@
     app:cardCornerRadius="5dp"
     >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        >
 
         <ImageView
             android:id="@+id/item_movie_iv"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="400dp"
             android:scaleType="centerCrop"
             tools:src="@mipmap/sample_movie"/>
 
         <TextView
             android:id="@+id/item_movie_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"
+            android:background="#7222"
+            android:gravity="center"
+            android:textColor="#ddd"
+            android:textStyle="bold"
+            android:textSize="17dp"
+
             tools:text="肖申克的救赎"/>
 
         <TextView
             android:id="@+id/item_movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#e53935"
+            android:textSize="25dp"
+            android:textStyle="italic"
             tools:text="9.6"/>
-    </LinearLayout>
+    </FrameLayout>
 
 </android.support.v7.widget.CardView>
