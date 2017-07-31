@@ -9,12 +9,12 @@ import android.view.ViewGroup;
  * Created by Chen.Qingsong on 2017/3/22.
  */
 public class HiveLayoutManager extends RecyclerView.LayoutManager {
-    private int mode = 2;
+    private int mode = 1;
     public static int MODE_VERTICAL = 1;
     public static int MODE_HORIZONTAL = 2;
     private RectF edge = new RectF();
 
-    public HiveLayoutManager() {
+    public HiveLayoutManager(int mode) {
         setAutoMeasureEnabled(true);
     }
     @Override
@@ -30,7 +30,8 @@ public class HiveLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public boolean canScrollVertically() {
-        return mode == MODE_VERTICAL ? true : false;
+        return false;
+//        return mode == MODE_VERTICAL ? true : false;
     }
 
     @Override
@@ -57,7 +58,21 @@ public class HiveLayoutManager extends RecyclerView.LayoutManager {
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
         System.out.println(dy);
         offsetChildrenVertical(-dy);
-        return dy;
+        if (0 > edge.top && dy < 0) {
+            int max = (int) Math.max(edge.top, dy);
+            edge.top -= max;
+            edge.bottom -= max;
+            offsetChildrenVertical(-max);
+            return dy;
+        }
+        if (getHeight() < edge.bottom && dy > 0) {
+            int min = (int) Math.min(edge.bottom -getWidth(), dy);
+            edge.bottom -= min;
+            edge.top -= min;
+            offsetChildrenVertical(-min);
+            return dy;
+        }
+        return 0;
     }
 
     @Override

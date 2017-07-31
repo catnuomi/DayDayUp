@@ -99,9 +99,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //影片名
             tempHolder.mItemMovieTitle.setText(subjectsEntity.getTitle());
 
-            //电影原名
-            tempHolder.mItemMovieOriginalTitle.setText(subjectsEntity.getOriginal_title());
-
             //评分
             tempHolder.mItemMovieRating.setText(subjectsEntity.getRating().getAverage() + "");
         } else {
@@ -164,8 +161,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class ListViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_movie_title)
         TextView mItemMovieTitle;
-        @Bind(R.id.item_movie_original_title)
-        TextView mItemMovieOriginalTitle;
         @Bind(R.id.item_movie_cast)
         TextView mItemMovieCast;
         @Bind(R.id.item_movie_directors)

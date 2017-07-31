@@ -155,7 +155,6 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
     @Override
     public void showMoreContent(MovieListBean data) {
         mData.addAll(data.getSubjects());
-        onSwipe(mData.get(0).getImages().getLarge());
         mAdapter.notifyDataSetChanged();
     }
 

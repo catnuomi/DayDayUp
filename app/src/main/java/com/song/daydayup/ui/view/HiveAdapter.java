@@ -1,7 +1,6 @@
 package com.song.daydayup.ui.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.song.daydayup.R;
 import com.song.daydayup.model.bean.douban.MovieDetailBean;
-import com.song.daydayup.ui.douban.activity.ActorActivity;
 
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class HiveAdapter extends RecyclerView.Adapter<HiveAdapter.ImageViewHolde
         final MovieDetailBean.CastsEntity castsEntity = mCasts.get(position);
         Glide.with(mContext).load(castsEntity.getAvatars().getLarge()).into(holder.imageView);
         holder.mTextView.setText(castsEntity.getName());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        /*holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ActorActivity.class);
@@ -51,7 +49,7 @@ public class HiveAdapter extends RecyclerView.Adapter<HiveAdapter.ImageViewHolde
                         .getLarge());
                 mContext.startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override

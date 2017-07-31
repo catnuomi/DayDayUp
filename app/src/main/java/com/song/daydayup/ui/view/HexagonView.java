@@ -40,7 +40,7 @@ public class HexagonView extends ImageView {
     private int mMeasuredWidth;
 
 
-    private int mode;
+    private int mode = 1;
     public static int MODE_VERTICAL = 1;
     public static int MODE_HORIZONTAL = 2;
 

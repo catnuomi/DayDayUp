@@ -14,15 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.jaeger.library.StatusBarUtil;
 import com.roger.gifloadinglibrary.GifLoadingView;
 import com.song.daydayup.R;
 import com.song.daydayup.base.BaseActivity;
 import com.song.daydayup.di.component.DaggerActivityComponent;
 import com.song.daydayup.model.bean.douban.MovieDetailBean;
-import com.song.daydayup.presenter.contract.douban.impl.MovieDetailPresenter;
 import com.song.daydayup.presenter.contract.douban.DoubanMovieDetailContract;
+import com.song.daydayup.presenter.contract.douban.impl.MovieDetailPresenter;
 import com.song.daydayup.ui.anim.HeightAnim;
 import com.song.daydayup.ui.view.HiveAdapter;
 import com.song.daydayup.ui.view.HiveLayoutManager;
@@ -225,7 +224,7 @@ public class MovieDetailActivity extends BaseActivity<MovieDetailPresenter> impl
                     .into((ImageView) inflate.findViewById(R.id.iv_cast_avatar));
         }*/
         mRvCast.setAdapter(new HiveAdapter(MovieDetailActivity.this, data.getCasts()));
-        mRvCast.setLayoutManager(new HiveLayoutManager());
+        mRvCast.setLayoutManager(new HiveLayoutManager(HiveLayoutManager.MODE_VERTICAL));
         //类型
         builder = new StringBuilder();
         for (int i = 0; i < data.getGenres().size(); i++) {
@@ -238,7 +237,7 @@ public class MovieDetailActivity extends BaseActivity<MovieDetailPresenter> impl
         //上映时间
         mTvYear.setText(data.getYear());
 
-        ViewAnimator.animate(mCvDes)
+       /* ViewAnimator.animate(mCvDes)
                 .translationX(-1000)
                 .andAnimate(mCvCast)
                 .translationY(1000)
@@ -259,7 +258,7 @@ public class MovieDetailActivity extends BaseActivity<MovieDetailPresenter> impl
                 .thenAnimate(mCvCast)
                 .translationY(500, 0)
                 .duration(500)
-                .start();
+                .start();*/
 
     }
 
