@@ -4,6 +4,7 @@ import com.song.daydayup.ui.douban.fragment.MovieHotFragment;
 import com.song.daydayup.ui.douban.fragment.MovieTop250Fragment;
 import com.song.daydayup.ui.douban.fragment.MovieUpcomingFragment;
 import com.song.daydayup.ui.zhihu.fragment.ZhihuDailyFragment;
+import com.song.daydayup.ui.zhihu.fragment.ZhihuThemeFragment;
 
 import javax.inject.Singleton;
 
@@ -21,4 +22,5 @@ public interface FragmentComponent {
     void inject(MovieUpcomingFragment fragment);
 
     void inject(ZhihuDailyFragment fragment);
+    void inject(ZhihuThemeFragment fragment);
 }

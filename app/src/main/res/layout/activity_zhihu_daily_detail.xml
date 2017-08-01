@@ -59,5 +59,13 @@
             android:layout_height="match_parent">
 
         </WebView>
+
     </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/fab_open_zhihu"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="20dp"
+        android:src="@mipmap/icon_zhihu_text"
+        android:layout_height="wrap_content"/>
 </android.support.design.widget.CoordinatorLayout>

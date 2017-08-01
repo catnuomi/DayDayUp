@@ -24,6 +24,7 @@ public class ZhihuMainFragment extends BaseFragment {
     ViewPager mVpZhihuMain;
     private ZhihuDailyFragment mZhihuDailyFragment;
     private SubpageAdapter mSubpageAdapter;
+    private ZhihuThemeFragment mZhihuThemeFragment;
 
     @Override
     public void showError(String msg) {
@@ -42,9 +43,11 @@ public class ZhihuMainFragment extends BaseFragment {
     @Override
     protected void initData() {
         mZhihuDailyFragment = new ZhihuDailyFragment();
+        mZhihuThemeFragment = new ZhihuThemeFragment();
         mTabZhihuMain.setupWithViewPager(mVpZhihuMain);
         ArrayList<SubpageFragment> fragments = new ArrayList<>();
         fragments.add(mZhihuDailyFragment);
+        fragments.add(mZhihuThemeFragment);
         mSubpageAdapter = new SubpageAdapter(getChildFragmentManager(), fragments);
         mVpZhihuMain.setAdapter(mSubpageAdapter);
     }
