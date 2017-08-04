@@ -89,21 +89,6 @@ public class MovieHotFragment extends SubpageFragment<MovieHotPresenter> impleme
             }
         });
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItemPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                        .findLastVisibleItemPosition();
-                if (lastVisibleItemPosition == mAdapter.getItemCount() - 1) {
-                    if (mData.size() < total) {
-                        mPresenter.getMoreData(mData.size());
-                    } else {
-                        ToastUtil.showToast("没有更多数据了");
-                    }
-                }
-            }
-        });*/
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);

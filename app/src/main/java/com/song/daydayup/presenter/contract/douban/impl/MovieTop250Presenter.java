@@ -56,7 +56,6 @@ public class MovieTop250Presenter extends RxPresenter<DoubanMovieTop250Contract.
             return;
         }
         isLoadMoreData = true;
-        mView.showProgress();
         addSubscribe(mRetrofit.mDoubanApiService.getTop250(start, PER_LOAD)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,6 +70,7 @@ public class MovieTop250Presenter extends RxPresenter<DoubanMovieTop250Contract.
                     @Override
                     public void call(Throwable throwable) {
                         mView.showError("数据加载失败");
+                        mView.dismissProgress();
                     }
                 }));
     }

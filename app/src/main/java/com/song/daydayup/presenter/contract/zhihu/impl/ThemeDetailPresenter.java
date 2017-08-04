@@ -1,9 +1,9 @@
 package com.song.daydayup.presenter.contract.zhihu.impl;
 
 import com.song.daydayup.base.RxPresenter;
-import com.song.daydayup.model.bean.zhihu.DailyDetailBean;
+import com.song.daydayup.model.bean.zhihu.ThemeDetailBean;
 import com.song.daydayup.network.RetrofitHelper;
-import com.song.daydayup.presenter.contract.zhihu.DailyDetailContract;
+import com.song.daydayup.presenter.contract.zhihu.ThemeDetailContract;
 
 import javax.inject.Inject;
 
@@ -12,27 +12,28 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Chen.Qingsong on 2017/4/11.
+ * Created by Chen.Qingsong on 2017/4/1.
  */
 
-public class DailyDetailPresenter extends RxPresenter<DailyDetailContract.View> implements DailyDetailContract.Presenter {
+public class ThemeDetailPresenter extends RxPresenter<ThemeDetailContract.View> implements ThemeDetailContract.Presenter {
     private final RetrofitHelper mRetrofitHelper;
 
     @Inject
-    public DailyDetailPresenter(RetrofitHelper helper) {
+    public ThemeDetailPresenter(RetrofitHelper helper) {
         mRetrofitHelper = helper;
     }
 
     @Override
     public void getData(String id) {
-
-        mRetrofitHelper.mZhihuDailyApiService.getDetail(id)
+        mView.showProgress();
+        mRetrofitHelper.mZhihuDailyApiService.getThemeDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<DailyDetailBean>() {
+                .subscribe(new Action1<ThemeDetailBean>() {
                     @Override
-                    public void call(DailyDetailBean dailyDetailBean) {
-                        mView.showContent(dailyDetailBean);
+                    public void call(ThemeDetailBean bean) {
+                        mView.showContent(bean);
+                        mView.dismissProgress();
                     }
                 },new Action1<Throwable>() {
                     @Override
@@ -42,5 +43,4 @@ public class DailyDetailPresenter extends RxPresenter<DailyDetailContract.View> 
                     }
                 });
     }
-
 }

@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".ui.zhihu.activity.ZhihuDailyActivity">
         </activity>
+        <activity android:name=".ui.zhihu.activity.ZhihuThemeActivity">
+        </activity>
     </application>
 
 </manifest>

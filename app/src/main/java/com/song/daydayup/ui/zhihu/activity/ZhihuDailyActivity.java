@@ -44,7 +44,6 @@ public class ZhihuDailyActivity extends BaseActivity<DailyDetailPresenter> imple
     FloatingActionButton mFabOpenZhihu;
     private String mId;
     private String mHtmlData;
-
     @Override
     public void showError(String msg) {
 
@@ -85,7 +84,7 @@ public class ZhihuDailyActivity extends BaseActivity<DailyDetailPresenter> imple
 
     @Override
     protected void initData() {
-        mPresenter.getData(mId);
+            mPresenter.getData(mId);
     }
 
     @Override
@@ -129,7 +128,6 @@ public class ZhihuDailyActivity extends BaseActivity<DailyDetailPresenter> imple
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 

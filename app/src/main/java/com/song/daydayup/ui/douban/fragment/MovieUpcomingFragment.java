@@ -2,7 +2,6 @@ package com.song.daydayup.ui.douban.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.song.daydayup.ui.douban.adapter.MovieListAdapter;
 import com.song.daydayup.ui.view.CardConfig;
 import com.song.daydayup.ui.view.OverLayCardLayoutManager;
 import com.song.daydayup.ui.view.RenRenCallback;
+import com.song.daydayup.ui.view.SwipeRefreshLayout;
 import com.song.daydayup.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -77,7 +77,18 @@ public class MovieUpcomingFragment extends SubpageFragment<MovieUpcomingPresente
                 mPresenter.getData();
             }
         });
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mSwipeRefreshLayout.setOnBottomRefreshListenrer(new SwipeRefreshLayout.OnBottomRefreshListener() {
+            @Override
+            public void onBottomRefresh() {
+                if (mData.size() < total) {
+                    mPresenter.getMoreData(mData.size());
+                } else {
+                    ToastUtil.showToast("没有更多数据了");
+                    dismissProgress();
+                }
+            }
+        });
+       /* mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -91,7 +102,7 @@ public class MovieUpcomingFragment extends SubpageFragment<MovieUpcomingPresente
                     }
                 }
             }
-        });
+        });*/
         mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new MovieListAdapter(getActivity(), mData);

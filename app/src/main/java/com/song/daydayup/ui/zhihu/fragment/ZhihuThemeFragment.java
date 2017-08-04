@@ -11,6 +11,7 @@ import com.song.daydayup.di.component.DaggerFragmentComponent;
 import com.song.daydayup.model.bean.zhihu.ThemeBean;
 import com.song.daydayup.presenter.contract.zhihu.ThemeContract;
 import com.song.daydayup.presenter.contract.zhihu.impl.ThemePresenter;
+import com.song.daydayup.ui.zhihu.activity.ZhihuThemeActivity;
 import com.song.daydayup.utils.ToastUtil;
 
 import butterknife.ButterKnife;
@@ -93,29 +94,40 @@ public class ZhihuThemeFragment extends SubpageFragment<ThemePresenter> implemen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_psychology:
-
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"13"));
                 break;
             case R.id.btn_recommend:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"12"));
                 break;
             case R.id.btn_movie:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"3"));
                 break;
             case R.id.btn_find_interesting:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"11"));
                 break;
             case R.id.btn_design:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"4"));
                 break;
             case R.id.btn_big_company:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"5"));
                 break;
             case R.id.btn_finance:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"6"));
                 break;
             case R.id.btn_internet:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"10"));
                 break;
             case R.id.btn_game:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"2"));
                 break;
             case R.id.btn_music:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"7"));
                 break;
             case R.id.btn_acg:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"9"));
                 break;
             case R.id.btn_sports:
+                startActivity(ZhihuThemeActivity.buildIntent(getActivity(),"8"));
                 break;
         }
     }

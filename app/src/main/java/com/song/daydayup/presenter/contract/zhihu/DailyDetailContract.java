@@ -11,9 +11,11 @@ import com.song.daydayup.model.bean.zhihu.DailyDetailBean;
 public interface DailyDetailContract {
     interface Presenter extends BasePresenter<View>{
         void getData(String id);
+
     }
 
     interface View extends BaseView {
+
         void showContent(DailyDetailBean data);
 
         void showProgress();
