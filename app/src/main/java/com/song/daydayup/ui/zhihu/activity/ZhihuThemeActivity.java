@@ -34,7 +34,7 @@ public class ZhihuThemeActivity extends BaseActivity<ThemeDetailPresenter> imple
     Toolbar mToolbar;
     @Bind(R.id.ctl)
     CollapsingToolbarLayout mCtl;
-    @Bind(R.id.rv)
+    @Bind(R.id.rv_content)
     RecyclerView mRv;
 
     @Override

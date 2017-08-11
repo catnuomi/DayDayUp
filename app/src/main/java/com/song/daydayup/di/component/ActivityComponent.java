@@ -4,6 +4,7 @@ import com.song.daydayup.ui.MainActivity;
 import com.song.daydayup.ui.douban.activity.ActorActivity;
 import com.song.daydayup.ui.douban.activity.MovieDetailActivity;
 import com.song.daydayup.ui.zhihu.activity.ZhihuDailyActivity;
+import com.song.daydayup.ui.zhihu.activity.ZhihuSectionActivity;
 import com.song.daydayup.ui.zhihu.activity.ZhihuThemeActivity;
 
 import dagger.Component;
@@ -22,4 +23,6 @@ public interface ActivityComponent {
     void inject(ZhihuDailyActivity activity);
 
     void inject(ZhihuThemeActivity activity);
+
+    void inject(ZhihuSectionActivity activity);
 }

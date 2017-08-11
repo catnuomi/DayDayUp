@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.song.daydayup.utils.ToastUtil;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -51,6 +53,11 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void showError(String msg) {
+        ToastUtil.showToast(msg);
     }
 
     protected abstract void initInject();

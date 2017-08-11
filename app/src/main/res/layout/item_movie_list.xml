@@ -4,6 +4,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+
               android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -13,6 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
+        android:foreground="@drawable/ripple_test"
         app:contentPadding="8dp">
 
         <LinearLayout
@@ -27,9 +29,9 @@
                 tools:src="@mipmap/sample_movie"/>
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
@@ -65,10 +67,10 @@
                     <TextView
                         android:id="@+id/item_movie_cast"
                         android:layout_width="match_parent"
-                        android:maxLines="2"
-                        android:ellipsize="end"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         tools:text="蒂姆·罗宾斯、摩根·弗里曼、鲍勃·冈顿"/>
                 </LinearLayout>
 

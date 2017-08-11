@@ -2,6 +2,8 @@ package com.song.daydayup.network;
 
 import com.song.daydayup.model.bean.zhihu.DailyDetailBean;
 import com.song.daydayup.model.bean.zhihu.LatestBean;
+import com.song.daydayup.model.bean.zhihu.SectionDetailBean;
+import com.song.daydayup.model.bean.zhihu.SectionListBean;
 import com.song.daydayup.model.bean.zhihu.ThemeBean;
 import com.song.daydayup.model.bean.zhihu.ThemeDetailBean;
 
@@ -26,4 +28,8 @@ public interface ZhihuDailyApi {
 
     @GET("theme/{id}")
     Observable<ThemeDetailBean> getThemeDetail(@Path("id") String id);
+    @GET("sections")
+    Observable<SectionListBean> getSectionList();
+    @GET("section/{id}")
+    Observable<SectionDetailBean> getSectionDetail(@Path("id") String id);
 }

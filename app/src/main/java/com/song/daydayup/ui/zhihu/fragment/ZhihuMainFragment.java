@@ -25,6 +25,7 @@ public class ZhihuMainFragment extends BaseFragment {
     private ZhihuDailyFragment mZhihuDailyFragment;
     private SubpageAdapter mSubpageAdapter;
     private ZhihuThemeFragment mZhihuThemeFragment;
+    private ZhihuSectionFragment mZhihuSectionListFragment;
 
     @Override
     public void showError(String msg) {
@@ -37,17 +38,19 @@ public class ZhihuMainFragment extends BaseFragment {
 
     @Override
     protected void initEvent() {
-
+        mVpZhihuMain.setOffscreenPageLimit(3);
     }
 
     @Override
     protected void initData() {
         mZhihuDailyFragment = new ZhihuDailyFragment();
         mZhihuThemeFragment = new ZhihuThemeFragment();
+        mZhihuSectionListFragment = new ZhihuSectionFragment();
         mTabZhihuMain.setupWithViewPager(mVpZhihuMain);
         ArrayList<SubpageFragment> fragments = new ArrayList<>();
         fragments.add(mZhihuDailyFragment);
         fragments.add(mZhihuThemeFragment);
+        fragments.add(mZhihuSectionListFragment);
         mSubpageAdapter = new SubpageAdapter(getChildFragmentManager(), fragments);
         mVpZhihuMain.setAdapter(mSubpageAdapter);
     }

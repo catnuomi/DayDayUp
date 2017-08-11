@@ -19,14 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.douban.activity.MovieDetailActivity">
-        </activity>
-        <activity android:name=".ui.douban.activity.ActorActivity">
-        </activity>
-        <activity android:name=".ui.zhihu.activity.ZhihuDailyActivity">
-        </activity>
-        <activity android:name=".ui.zhihu.activity.ZhihuThemeActivity">
-        </activity>
+        <activity android:name=".ui.douban.activity.MovieDetailActivity"/>
+        <activity android:name=".ui.douban.activity.ActorActivity"/>
+        <activity android:name=".ui.zhihu.activity.ZhihuDailyActivity" android:exported="true"/>
+        <activity android:name=".ui.zhihu.activity.ZhihuThemeActivity"/>
+        <activity android:name=".ui.zhihu.activity.ZhihuSectionActivity"/>
     </application>
 
 </manifest>
